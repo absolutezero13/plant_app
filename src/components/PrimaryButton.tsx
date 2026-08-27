@@ -7,7 +7,7 @@ import {
   type ViewStyle,
 } from "react-native";
 
-import { AdaptiveGlass } from "@/components/adaptive-glass";
+import { AdaptiveGlass } from "@/components/AdaptiveGlass";
 import { Colors, ControlSize, Radius, Typography } from "@/constants/theme";
 
 type PrimaryButtonProps = {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     borderCurve: "continuous",
   },
   label: {
-    ...Typography.buttonLabel,
+    ...Typography.label,
     color: Colors.light.onPrimary,
   },
 });
