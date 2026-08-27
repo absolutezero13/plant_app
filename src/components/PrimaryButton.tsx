@@ -23,7 +23,6 @@ export function PrimaryButton({
   onPress,
   disabled = false,
   loading = false,
-  style,
 }: PrimaryButtonProps) {
   const isDisabled = disabled || loading;
   const surfaceColor = isDisabled
@@ -67,10 +66,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: Radius.medium,
-    borderCurve: "continuous",
   },
   label: {
-    ...Typography.label,
+    ...Typography.buttonLabel,
     color: Colors.light.onPrimary,
   },
 });
