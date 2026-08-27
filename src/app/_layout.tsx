@@ -1,3 +1,4 @@
+import { store } from "@/store/store";
 import { Rubik_400Regular } from "@expo-google-fonts/rubik/400Regular";
 import { Rubik_500Medium } from "@expo-google-fonts/rubik/500Medium";
 import { Rubik_600SemiBold } from "@expo-google-fonts/rubik/600SemiBold";
@@ -8,6 +9,7 @@ import { DefaultTheme, ThemeProvider } from "expo-router/react-navigation";
 import { Stack } from "expo-router/stack";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { Provider } from "react-redux";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,15 +33,17 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name="onboarding"
-          options={{
-            fullScreenGestureEnabled: false,
-          }}
-        />
-      </Stack>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider value={DefaultTheme}>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="onboarding"
+            options={{
+              fullScreenGestureEnabled: false,
+            }}
+          />
+        </Stack>
+      </ThemeProvider>
+    </Provider>
   );
 }

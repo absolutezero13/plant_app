@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { AdaptiveGlassContainer } from "@/components/AdaptiveGlass";
@@ -11,6 +12,8 @@ import { Colors, Fonts, Radius, Spacing, Typography } from "@/constants/theme";
 import { paywallHero } from "@/screens/PaywallScreen/assets";
 import { PremiumFeature } from "@/screens/PaywallScreen/components/PremiumFeature";
 import { SubscriptionPackage } from "@/screens/PaywallScreen/components/SubscriptionPackage";
+import type { AppDispatch } from "@/store/store";
+import { setSubscriberStatus } from "@/store/userSlice";
 
 const features = [
   {
@@ -34,9 +37,15 @@ type PackageId = "monthly" | "annual";
 
 export default function PaywallScreen() {
   const [selectedPackage, setSelectedPackage] = useState<PackageId>("annual");
+  const dispatch = useDispatch<AppDispatch>();
   const { bottom, top } = useSafeAreaInsets();
 
-  const finishOnboarding = () => router.replace("/home");
+  const goToHome = () => router.replace("/home");
+
+  const purchaseSubscription = () => {
+    dispatch(setSubscriberStatus(true));
+    goToHome();
+  };
 
   return (
     <View style={styles.root}>
@@ -53,7 +62,7 @@ export default function PaywallScreen() {
         accessibilityLabel="Close premium offer"
         accessibilityRole="button"
         hitSlop={8}
-        onPress={finishOnboarding}
+        onPress={goToHome}
         style={[styles.closeButton, { top }]}
       >
         <View style={styles.closeCircle}>
@@ -115,7 +124,7 @@ export default function PaywallScreen() {
         <View style={styles.footer}>
           <PrimaryButton
             title="Try free for 3 days"
-            onPress={finishOnboarding}
+            onPress={purchaseSubscription}
           />
 
           <Text style={styles.footnote}>
