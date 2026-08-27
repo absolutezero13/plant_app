@@ -5,7 +5,13 @@ import { StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { PrimaryButton } from "@/components/PrimaryButton";
-import { Colors, SCREEN_WIDTH, Spacing, Typography } from "@/constants/theme";
+import {
+  Colors,
+  IS_SMALL_SCREEN,
+  SCREEN_WIDTH,
+  Spacing,
+  Typography,
+} from "@/constants/theme";
 import {
   welcomeBackground,
   welcomePlant,
@@ -87,9 +93,10 @@ const styles = StyleSheet.create({
     letterSpacing: 0.07,
   },
   illustration: {
-    width: SCREEN_WIDTH,
+    width: IS_SMALL_SCREEN ? SCREEN_WIDTH * 0.9 : SCREEN_WIDTH,
     aspectRatio: 375 / 499,
     marginTop: Spacing.lg,
+    alignSelf: "center",
   },
   footer: {
     gap: 17,
