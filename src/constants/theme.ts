@@ -1,19 +1,24 @@
-import { type TextStyle } from "react-native";
+import { Dimensions, Platform, type TextStyle } from "react-native";
+
+export const IS_SMALL_SCREEN = Dimensions.get("window").height < 700;
+export const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export const Colors = {
   light: {
     text: "#13231B",
     background: "#FFFFFF",
+    backgroundTransparent: "#FFFFFF00",
     backgroundElement: "#F0F0F3",
     backgroundSelected: "#E0E1E6",
     surfaceMuted: "#F5F8F6",
-    textSecondary: "#52645B",
+    textSecondary: "#13231BB2",
     textTertiary: "#858585",
+    legalText: "#597165B3",
     primary: "#28AF6E",
     primaryDisabled: "#8BD7B2",
     onPrimary: "#FFFFFF",
     indicator: "#13231B",
-    indicatorMuted: "#D6DBD8",
+    indicatorMuted: "#13231B40",
     premiumBackground: "#0B1A14",
     premiumSurface: "#FFFFFF14",
     premiumSurfaceSelected: "#28AF6E29",
@@ -33,16 +38,18 @@ export const Fonts = {
   medium: "Rubik_500Medium",
   semibold: "Rubik_600SemiBold",
   bold: "Rubik_700Bold",
+  extraBold: "Rubik_800ExtraBold",
+  sfProText: Platform.select({ ios: "system-ui", default: "System" }),
 };
 
 export const Spacing = {
-  half: 2,
-  one: 4,
-  two: 8,
-  three: 16,
-  four: 24,
-  five: 32,
-  six: 64,
+  xxs: 2,
+  xs: 4,
+  sm: 8,
+  md: 12,
+  lg: 24,
+  xl: 32,
+  xxl: 64,
 };
 
 export const Radius = {
@@ -77,6 +84,16 @@ export const Typography = {
     lineHeight: 34,
     fontFamily: Fonts.regular,
     letterSpacing: -0.5,
+  },
+  headingLarge: {
+    fontSize: 28,
+    lineHeight: 28,
+    fontFamily: Fonts.medium,
+  },
+  headingLargeStrong: {
+    fontSize: 28,
+    lineHeight: 28,
+    fontFamily: Fonts.extraBold,
   },
   titleLarge: {
     fontSize: 26,
@@ -118,6 +135,14 @@ export const Typography = {
     lineHeight: 20,
     fontFamily: Fonts.semibold,
   },
+  buttonLabel: {
+    fontSize: 15,
+    lineHeight: 24,
+    fontFamily: Fonts.sfProText,
+    fontWeight: "700",
+    letterSpacing: -0.24,
+    textAlign: "center",
+  },
   labelSmall: {
     fontSize: 14,
     lineHeight: 18,
@@ -132,6 +157,13 @@ export const Typography = {
     fontSize: 10,
     lineHeight: 14,
     fontFamily: Fonts.regular,
+  },
+  finePrint: {
+    fontSize: 11,
+    lineHeight: 15,
+    fontFamily: Fonts.regular,
+    letterSpacing: 0.07,
+    textAlign: "center",
   },
   footnote: {
     fontSize: 9,
