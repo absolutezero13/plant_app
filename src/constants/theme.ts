@@ -11,6 +11,9 @@ export const Colors = {
     backgroundElement: "#F0F0F3",
     backgroundSelected: "#E0E1E6",
     surfaceMuted: "#F5F8F6",
+    tabBarBorder: "#E5E5E5",
+    tabBarInactive: "#BDBDBD",
+    tabBarRaisedBorder: "#5ACB95",
     textSecondary: "#13231BB2",
     textTertiary: "#858585",
     legalText: "#597165B3",
@@ -70,6 +73,9 @@ export const Radius = {
 
 export const ControlSize = {
   primaryButtonHeight: 56,
+  tabBarHeight: 50,
+  tabBarIcon: 25,
+  tabBarRaisedButton: 64,
 };
 
 export const Opacity = {
@@ -167,6 +173,11 @@ export const Typography = {
     fontSize: 14,
     lineHeight: 18,
     fontFamily: Fonts.semibold,
+  },
+  tabLabel: {
+    fontSize: 12,
+    lineHeight: 16,
+    fontFamily: Fonts.regular,
   },
   captionStrong: {
     fontSize: 13,

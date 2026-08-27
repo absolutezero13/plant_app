@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 
 import { Colors } from "@/constants/theme";
 
-export default function HomeScreen() {
+export default function ProfileScreen() {
   return <View style={styles.screen} />;
 }
 
