@@ -36,12 +36,15 @@ export default function RootLayout() {
     <Provider store={store}>
       <ThemeProvider value={DefaultTheme}>
         <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
           <Stack.Screen
             name="onboarding"
             options={{
               fullScreenGestureEnabled: false,
             }}
           />
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="paywall" />
         </Stack>
       </ThemeProvider>
     </Provider>

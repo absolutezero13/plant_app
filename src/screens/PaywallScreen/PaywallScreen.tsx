@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import {
@@ -46,20 +46,30 @@ const features = [
 ];
 
 type PackageId = "monthly" | "annual";
+type PaywallSource = "onboarding" | "tabs";
 
 export default function PaywallScreen() {
   const [selectedPackage, setSelectedPackage] = useState<PackageId>("annual");
   const dispatch = useDispatch<AppDispatch>();
   const { bottom, top } = useSafeAreaInsets();
+  const { source } = useLocalSearchParams<{ source?: PaywallSource }>();
 
-  const goToHome = () => router.replace("/home");
+  const closePaywall = () => {
+    if (source === "tabs") {
+      router.back();
+      return;
+    }
+
+    router.dismissAll();
+    router.replace("/home");
+  };
 
   const purchaseSubscription = () => {
     dispatch(setSubscriberStatus(true));
     Alert.alert(
       "Purchase successful",
       "You now have access to all premium features.",
-      [{ text: "Continue", onPress: goToHome }],
+      [{ text: "Continue", onPress: closePaywall }],
       { cancelable: false },
     );
   };
@@ -79,7 +89,7 @@ export default function PaywallScreen() {
         accessibilityLabel="Close premium offer"
         accessibilityRole="button"
         hitSlop={8}
-        onPress={goToHome}
+        onPress={closePaywall}
         style={[styles.closeButton, { top }]}
       >
         <View style={styles.closeCircle}>

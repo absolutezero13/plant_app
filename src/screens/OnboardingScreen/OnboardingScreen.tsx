@@ -41,7 +41,10 @@ export default function OnboardingScreen() {
       return;
     }
 
-    router.push("/paywall");
+    router.push({
+      pathname: "/paywall",
+      params: { source: "onboarding" },
+    });
   };
 
   const updatePage = (event: NativeSyntheticEvent<NativeScrollEvent>) => {

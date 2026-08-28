@@ -18,7 +18,6 @@ export const Colors = {
     tabBarRaisedEnd: "#2CCC80",
     textSecondary: "#13231BB2",
     textMuted: "#6D6D6D",
-    placeholder: "#AFAFAF",
     iconMuted: "#ABABAB",
     searchBorder: "#3C3C4340",
     legalText: "#597165B3",
