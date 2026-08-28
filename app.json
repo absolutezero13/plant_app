@@ -3,7 +3,10 @@
     "name": "plant_app",
     "slug": "plant_app",
     "version": "1.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
     "scheme": "plantapp",
     "userInterfaceStyle": "automatic",
@@ -11,14 +14,20 @@
       "bundleIdentifier": "com.absolutezero13.plant-app"
     },
     "android": {
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.absolutezero13.plantapp"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#FFFFFF"
+          "backgroundColor": "#FFFFFF",
+          "android": {
+            "drawable": {
+              "icon": "./assets/android/transparent-splash-icon.xml"
+            }
+          }
         }
       ]
     ],

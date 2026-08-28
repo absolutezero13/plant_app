@@ -1,14 +1,87 @@
-import { StyleSheet, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Colors } from "@/constants/theme";
+import { Colors, Radius, Spacing, Typography } from "@/constants/theme";
+import type { AppDispatch, RootState } from "@/store/store";
+import { resetUserState } from "@/store/userSlice";
 
 export default function ProfileScreen() {
-  return <View style={styles.screen} />;
+  const dispatch = useDispatch<AppDispatch>();
+  const isSubscriber = useSelector(
+    (state: RootState) => state.user.isSubscriber,
+  );
+
+  return (
+    <ScrollView
+      contentContainerStyle={styles.content}
+      contentInsetAdjustmentBehavior="automatic"
+      style={styles.screen}
+    >
+      <StatusBar style="dark" />
+      <Text accessibilityRole="header" style={styles.title}>
+        Profile
+      </Text>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Subscription status</Text>
+        <Text selectable style={styles.value}>
+          {isSubscriber ? "Premium subscriber" : "Free account"}
+        </Text>
+
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => dispatch(resetUserState())}
+          style={styles.resetButton}
+        >
+          <Text style={styles.resetLabel}>Reset data</Text>
+        </Pressable>
+      </View>
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: Colors.light.background,
     flex: 1,
+  },
+  content: {
+    gap: Spacing.lg,
+    padding: Spacing.lg,
+  },
+  title: {
+    ...Typography.title,
+    color: Colors.light.text,
+    fontFamily: Typography.emphasis.fontFamily,
+  },
+  card: {
+    alignItems: "flex-start",
+    backgroundColor: Colors.light.surfaceMuted,
+    borderColor: Colors.light.surfaceBorder,
+    borderCurve: "continuous",
+    borderRadius: Radius.large,
+    borderWidth: 1,
+    gap: Spacing.sm,
+    padding: Spacing.lg,
+  },
+  label: {
+    ...Typography.bodySmall,
+    color: Colors.light.textSecondary,
+  },
+  value: {
+    ...Typography.bodyStrong,
+    color: Colors.light.text,
+  },
+  resetButton: {
+    backgroundColor: Colors.light.primary,
+    borderRadius: Radius.full,
+    marginTop: Spacing.sm,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.sm,
+  },
+  resetLabel: {
+    ...Typography.bodySmallStrong,
+    color: Colors.light.onPrimary,
   },
 });
