@@ -19,6 +19,7 @@ export const Colors = {
     textSecondary: "#13231BB2",
     textMuted: "#6D6D6D",
     iconMuted: "#ABABAB",
+    searchPlaceholder: "#AFAFAF",
     searchBorder: "#3C3C4340",
     legalText: "#597165B3",
     primary: "#28AF6E",

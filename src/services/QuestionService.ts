@@ -1,21 +1,34 @@
 import ApiService from "@/services/ApiService";
+import { z } from "zod";
 
 const QUESTIONS_PATH = "/getQuestions";
 
-export type Question = {
-  id: number;
-  title: string;
-  subtitle: string;
-  image_uri: string;
-  uri: string;
-  order: number;
-};
+const questionPayload = z
+  .object({
+    id: z.number(),
+    image_uri: z.string(),
+    order: z.number(),
+    subtitle: z.string(),
+    title: z.string(),
+    uri: z.string(),
+  })
+  .transform(({ image_uri, ...question }) => ({
+    ...question,
+    imageUrl: image_uri,
+  }));
 
-export type QuestionsResponse = Question[];
+const questionCollectionPayload = z.array(questionPayload);
+
+export type Question = z.infer<typeof questionPayload>;
+export type QuestionsResponse = z.infer<typeof questionCollectionPayload>;
+
+export const validateQuestions = (payload: unknown): QuestionsResponse =>
+  questionCollectionPayload.parse(payload);
 
 export class QuestionService {
-  getQuestions(): Promise<QuestionsResponse> {
-    return ApiService.get<QuestionsResponse>(QUESTIONS_PATH);
+  async getQuestions(): Promise<QuestionsResponse> {
+    const response = await ApiService.get<unknown>(QUESTIONS_PATH);
+    return validateQuestions(response);
   }
 }
 

@@ -24,6 +24,10 @@ import {
 } from "@/screens/PaywallScreen/assets";
 import { PremiumFeature } from "@/screens/PaywallScreen/components/PremiumFeature";
 import { SubscriptionPackage } from "@/screens/PaywallScreen/components/SubscriptionPackage";
+import {
+  getPaywallExit,
+  type PaywallSource,
+} from "@/screens/PaywallScreen/paywallNavigation";
 import type { AppDispatch, RootState } from "@/store/store";
 import {
   setLoggedInStatus,
@@ -49,7 +53,6 @@ const features = [
 ];
 
 type PackageId = "monthly" | "annual";
-type PaywallSource = "onboarding" | "tabs";
 
 export default function PaywallScreen() {
   const [selectedPackage, setSelectedPackage] = useState<PackageId>("annual");
@@ -65,7 +68,7 @@ export default function PaywallScreen() {
   }, [isLoggedIn, source]);
 
   const closePaywall = () => {
-    if (source === "tabs") {
+    if (getPaywallExit(source) === "goBack") {
       router.back();
       return;
     }

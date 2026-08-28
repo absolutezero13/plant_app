@@ -1,10 +1,10 @@
 # Plant App
 
-Plant App is an Expo and React Native application for plant discovery, identification onboarding, care content, and a mocked premium subscription flow. It uses Expo Router for navigation, Redux Toolkit for user state, AsyncStorage for persistence, and Axios for API access.
+Plant App is an Expo and React Native application for plant discovery, identification onboarding, care content, and a mocked premium subscription flow. It uses Expo Router for navigation, Redux Toolkit for user state, AsyncStorage for persistence, Axios for API access, and Zod for runtime response validation.
 
 ## Requirements
 
-- Node.js 20.19.4, 22.13.0, or a newer supported release
+- Node.js 22.13.0 or newer
 - npm
 - Xcode and an iOS Simulator for iOS development
 - Android Studio, the Android SDK, and an emulator for Android development
@@ -73,7 +73,7 @@ Route files stay intentionally small and render the matching screen from `src/sc
 
 ## Data flow
 
-`ApiService` is the generic Axios client. Endpoint-specific services request `unknown`, validate the server payload at runtime, and return typed app data. Category images are nullable because the API may omit them. The home screen handles loading, error, and successful states independently for questions and categories.
+`ApiService` is the generic Axios client. Endpoint-specific services request `unknown`, validate the server payload with Zod, and return types inferred from their schemas. Zod transforms API field names into the app's naming style and normalizes missing category images to `null`. The home screen handles loading, error, and successful states independently for questions and categories.
 
 The application currently reads:
 

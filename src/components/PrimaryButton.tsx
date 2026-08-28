@@ -3,8 +3,6 @@ import {
   Pressable,
   StyleSheet,
   Text,
-  type StyleProp,
-  type ViewStyle,
 } from "react-native";
 
 import { AdaptiveGlass } from "@/components/AdaptiveGlass";
@@ -15,7 +13,6 @@ type PrimaryButtonProps = {
   onPress?: () => void;
   disabled?: boolean;
   loading?: boolean;
-  style?: StyleProp<ViewStyle>;
 };
 
 export function PrimaryButton({
@@ -55,11 +52,6 @@ export function PrimaryButton({
 }
 
 const styles = StyleSheet.create({
-  pressable: {
-    minHeight: ControlSize.primaryButtonHeight,
-    borderRadius: Radius.medium,
-  },
-
   surface: {
     minHeight: ControlSize.primaryButtonHeight,
     flex: 1,

@@ -15,20 +15,22 @@ export function CategoryCard({ category, width }: CategoryCardProps) {
       <Text numberOfLines={2} style={styles.title}>
         {category.title}
       </Text>
-      <Image
-        accessibilityLabel={category.title}
-        cachePolicy="memory-disk"
-        contentFit="contain"
-        source={{ uri: category.image.url }}
-        style={[
-          styles.image,
-          {
-            width: category.image.width,
-            height: category.image.height,
-          },
-        ]}
-        transition={150}
-      />
+      {category.image ? (
+        <Image
+          accessibilityLabel={category.title}
+          cachePolicy="memory-disk"
+          contentFit="contain"
+          source={{ uri: category.image.url }}
+          style={[
+            styles.image,
+            {
+              width: category.image.width,
+              height: category.image.height,
+            },
+          ]}
+          transition={150}
+        />
+      ) : null}
     </View>
   );
 }

@@ -1,9 +1,9 @@
-import { decodeCategories } from "@/services/CategoryService";
-import { decodeQuestions } from "@/services/QuestionService";
+import { validateCategories } from "@/services/CategoryService";
+import { validateQuestions } from "@/services/QuestionService";
 
 describe("API response parsing", () => {
   it("maps categories with images, nullable images, and missing images", () => {
-    const response = decodeCategories({
+    const response = validateCategories({
       data: [
         {
           id: 1,
@@ -23,12 +23,10 @@ describe("API response parsing", () => {
 
   it("rejects malformed category data", () => {
     expect(() =>
-      decodeCategories({
+      validateCategories({
         data: [{ id: 1, image: null, rank: "first", title: "Ferns" }],
       }),
-    ).toThrow(
-      "Invalid API response at categories.data[0].rank: expected a number.",
-    );
+    ).toThrow();
   });
 
   it("accepts valid questions and rejects malformed questions", () => {
@@ -41,7 +39,7 @@ describe("API response parsing", () => {
       uri: "https://example.com/guide",
     };
 
-    expect(decodeQuestions([question])).toEqual([
+    expect(validateQuestions([question])).toEqual([
       {
         id: question.id,
         imageUrl: question.image_uri,
@@ -51,8 +49,8 @@ describe("API response parsing", () => {
         uri: question.uri,
       },
     ]);
-    expect(() => decodeQuestions([{ ...question, order: "first" }])).toThrow(
-      "Invalid API response at questions[0].order: expected a number.",
-    );
+    expect(() =>
+      validateQuestions([{ ...question, order: "first" }]),
+    ).toThrow();
   });
 });

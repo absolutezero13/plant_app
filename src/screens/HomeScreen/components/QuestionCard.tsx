@@ -15,7 +15,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
         accessibilityLabel={question.title}
         cachePolicy="memory-disk"
         contentFit="cover"
-        source={{ uri: question.image_uri }}
+        source={{ uri: question.imageUrl }}
         style={styles.image}
         transition={150}
       />
