@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "plant_app",
+    "name": "Plant App",
     "slug": "plant_app",
+    "icon": "./assets/app-icon.png",
     "version": "1.0.0",
     "platforms": [
       "ios",
@@ -22,12 +23,10 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#FFFFFF",
-          "android": {
-            "drawable": {
-              "icon": "./assets/android/transparent-splash-icon.xml"
-            }
-          }
+          "backgroundColor": "#28AF6E",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 180,
+          "resizeMode": "contain"
         }
       ]
     ],
