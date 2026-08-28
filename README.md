@@ -1,56 +1,92 @@
-# Welcome to your Expo app 👋
+# Plant App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Plant App is an Expo and React Native application for plant discovery, identification onboarding, care content, and a mocked premium subscription flow. It uses Expo Router for navigation, Redux Toolkit for user state, AsyncStorage for persistence, and Axios for API access.
 
-## Get started
+## Requirements
 
-1. Install dependencies
+- Node.js 20.19.4, 22.13.0, or a newer supported release
+- npm
+- Xcode and an iOS Simulator for iOS development
+- Android Studio, the Android SDK, and an emulator for Android development
 
-   ```bash
-   npm install
-   ```
+## Installation
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Install dependencies:
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Create and launch the native iOS app:
 
-### Other setup steps
+```bash
+npm run ios
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+Create and launch the native Android app:
 
-## Learn more
+```bash
+npm run android
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+To start Metro separately:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npm start
+```
 
-## Join the community
+## Checks
 
-Join our community of developers creating universal apps.
+Run the focused unit tests:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npm test
+```
+
+Run tests in watch mode:
+
+```bash
+npm run test:watch
+```
+
+Run linting:
+
+```bash
+npm run lint
+```
+
+## Project structure
+
+```text
+src/
+  app/          Expo Router routes and navigation layouts
+  components/   Shared UI components
+  constants/    Design tokens and app-wide constants
+  hooks/        Shared typed hooks
+  screens/      Screen implementations, local components, and assets
+  services/     API, endpoint, and typed storage services
+  store/        Redux store and user state
+  types/        Shared TypeScript declarations
+```
+
+Route files stay intentionally small and render the matching screen from `src/screens`. Screen-specific components and image variants live beside their screen rather than in a global asset folder.
+
+## Data flow
+
+`ApiService` is the generic Axios client. Endpoint-specific services request `unknown`, validate the server payload at runtime, and return typed app data. Category images are nullable because the API may omit them. The home screen handles loading, error, and successful states independently for questions and categories.
+
+The application currently reads:
+
+- `GET /getCategories`
+- `GET /getQuestions`
+
+Redux Toolkit owns login and subscription state. The relevant user state is restored from and persisted to AsyncStorage through the typed `StorageService`.
+
+## Navigation
+
+- Welcome
+- Onboarding
+- Paywall
+- Main tabs: Home, Diagnose, Scan, My Garden, and Profile
+
+The root layout decides whether to show the authentication/onboarding flow or the main tab flow from the persisted user state.
