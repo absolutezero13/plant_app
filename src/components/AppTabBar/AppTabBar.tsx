@@ -131,6 +131,8 @@ const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: Colors.light.background,
     flexDirection: "row",
+    borderTopColor: Colors.light.surfaceBorder,
+    borderTopWidth: 0.5,
   },
   tabButton: {
     alignItems: "center",

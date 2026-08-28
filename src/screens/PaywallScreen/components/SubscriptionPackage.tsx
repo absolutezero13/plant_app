@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { AdaptiveGlass } from "@/components/AdaptiveGlass";
@@ -18,6 +19,39 @@ export function SubscriptionPackage({
   selected,
   title,
 }: SubscriptionPackageProps) {
+  const selectedBackground = selected ? (
+    <LinearGradient
+      colors={[
+        Colors.light.premiumPackageGradientStart,
+        Colors.light.premiumPackageGradientEnd,
+      ]}
+      end={{ x: 0, y: 0.5 }}
+      locations={[0, 1]}
+      pointerEvents="none"
+      start={{ x: 1, y: 0.5 }}
+      style={styles.selectedBackground}
+    />
+  ) : null;
+
+  const renderPackageContent = () => (
+    <>
+      <View style={[styles.radio, selected && styles.selectedRadio]}>
+        {selected && <View style={styles.radioDot} />}
+      </View>
+
+      <View style={styles.content}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.detail}>{detail}</Text>
+      </View>
+
+      {badge && (
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{badge}</Text>
+        </View>
+      )}
+    </>
+  );
+
   return (
     <Pressable
       accessibilityRole="radio"
@@ -25,37 +59,34 @@ export function SubscriptionPackage({
       onPress={onPress}
       style={styles.root}
     >
-      <AdaptiveGlass
-        colorScheme="dark"
-        fallbackColor={
-          selected
-            ? Colors.light.premiumSurfaceSelected
-            : Colors.light.premiumPlanSurface
-        }
-        glassEffectStyle="clear"
-        isInteractive
-        style={styles.package}
-        tintColor={
-          selected
-            ? Colors.light.premiumSurfaceSelected
-            : Colors.light.premiumGlassTint
-        }
-      >
-        <View style={[styles.radio, selected && styles.selectedRadio]}>
-          {selected && <View style={styles.radioDot} />}
+      {process.env.EXPO_OS === "android" ? (
+        <View
+          style={[styles.package, styles.androidPackage]}
+        >
+          {selectedBackground}
+          {renderPackageContent()}
+          <View
+            pointerEvents="none"
+            style={[styles.outline, selected && styles.selectedOutline]}
+          />
         </View>
-
-        <View style={styles.content}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.detail}>{detail}</Text>
-        </View>
-
-        {badge && (
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>{badge}</Text>
-          </View>
-        )}
-      </AdaptiveGlass>
+      ) : (
+        <AdaptiveGlass
+          colorScheme="dark"
+          fallbackColor={Colors.light.premiumPlanSurface}
+          glassEffectStyle="regular"
+          isInteractive
+          style={styles.package}
+          tintColor={Colors.light.premiumGlassTint}
+        >
+          {selectedBackground}
+          {renderPackageContent()}
+          <View
+            pointerEvents="none"
+            style={[styles.outline, selected && styles.selectedOutline]}
+          />
+        </AdaptiveGlass>
+      )}
     </Pressable>
   );
 }
@@ -64,20 +95,27 @@ const styles = StyleSheet.create({
   root: {
     borderCurve: "continuous",
     borderRadius: 14,
-    minHeight: 70,
+    minHeight: 60,
     width: "100%",
   },
   package: {
     alignItems: "center",
     borderCurve: "continuous",
     borderRadius: 14,
-    flex: 1,
     flexDirection: "row",
-    minHeight: 70,
-    paddingHorizontal: 14.5,
+    minHeight: 60,
+    paddingHorizontal: Spacing.md2,
+  },
+  androidPackage: {
+    backgroundColor: Colors.light.premiumFeatureStart,
+  },
+  selectedBackground: {
+    ...StyleSheet.absoluteFill,
+    borderCurve: "continuous",
+    borderRadius: 14,
   },
   outline: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     borderColor: Colors.light.premiumOutline,
     borderCurve: "continuous",
     borderRadius: 14,
@@ -89,9 +127,8 @@ const styles = StyleSheet.create({
   },
   radio: {
     alignItems: "center",
-    borderColor: Colors.light.premiumRadioOutline,
+    backgroundColor: Colors.light.premiumRadioBackground,
     borderRadius: Radius.full,
-    borderWidth: 1.5,
     height: 24,
     justifyContent: "center",
     marginRight: Spacing.md,
@@ -99,7 +136,6 @@ const styles = StyleSheet.create({
   },
   selectedRadio: {
     backgroundColor: Colors.light.primary,
-    borderColor: Colors.light.primary,
   },
   radioDot: {
     backgroundColor: Colors.light.premiumText,

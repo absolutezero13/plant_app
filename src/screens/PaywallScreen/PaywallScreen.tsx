@@ -10,13 +10,18 @@ import {
   Text,
   View,
 } from "react-native";
-import { useDispatch } from "react-redux";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux";
 
 import { AdaptiveGlassContainer } from "@/components/AdaptiveGlass";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { Colors, Fonts, Radius, Spacing, Typography } from "@/constants/theme";
-import { paywallHero } from "@/screens/PaywallScreen/assets";
+import {
+  paywallHero,
+  PlantCareFeatureIcon,
+  ScanFeatureIcon,
+  SpeedometerFeatureIcon,
+} from "@/screens/PaywallScreen/assets";
 import { PremiumFeature } from "@/screens/PaywallScreen/components/PremiumFeature";
 import { SubscriptionPackage } from "@/screens/PaywallScreen/components/SubscriptionPackage";
 import type { AppDispatch } from "@/store/store";
@@ -24,17 +29,17 @@ import { setSubscriberStatus } from "@/store/userSlice";
 
 const features = [
   {
-    icon: "sf:viewfinder",
+    Icon: ScanFeatureIcon,
     title: "Unlimited",
     caption: "Plant Identify",
   },
   {
-    icon: "sf:speedometer",
+    Icon: SpeedometerFeatureIcon,
     title: "Faster",
     caption: "Process",
   },
   {
-    icon: "sf:leaf.fill",
+    Icon: PlantCareFeatureIcon,
     title: "Detailed",
     caption: "Plant care",
   },

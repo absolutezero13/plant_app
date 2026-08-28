@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     aspectRatio: 375 / 499,
     marginTop: Spacing.lg,
     alignSelf: "center",
+    flex: 1,
   },
   footer: {
     gap: 17,

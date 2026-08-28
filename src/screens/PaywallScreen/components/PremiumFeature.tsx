@@ -1,20 +1,16 @@
-import { Image, type ImageProps } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import type { ComponentType } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import { Colors, Radius, Spacing, Typography } from "@/constants/theme";
 
 type PremiumFeatureProps = {
-  icon: ImageProps["source"];
+  Icon: ComponentType;
   title: string;
   caption: string;
 };
 
-export function PremiumFeature({
-  icon,
-  title,
-  caption,
-}: PremiumFeatureProps) {
+export function PremiumFeature({ Icon, title, caption }: PremiumFeatureProps) {
   return (
     <LinearGradient
       colors={[
@@ -26,12 +22,7 @@ export function PremiumFeature({
       style={styles.root}
     >
       <View style={styles.iconBackground}>
-        <Image
-          contentFit="contain"
-          source={icon}
-          style={styles.icon}
-          tintColor={Colors.light.premiumText}
-        />
+        <Icon />
       </View>
 
       <View style={styles.content}>
@@ -49,7 +40,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     height: 130,
     justifyContent: "flex-start",
-    paddingHorizontal: Spacing.sm,
+    paddingHorizontal: Spacing.md2,
     paddingVertical: 16,
     width: 156,
   },
@@ -61,10 +52,6 @@ const styles = StyleSheet.create({
     height: 35,
     justifyContent: "center",
     width: 36,
-  },
-  icon: {
-    height: 18,
-    width: 18,
   },
   content: {
     alignItems: "flex-start",
