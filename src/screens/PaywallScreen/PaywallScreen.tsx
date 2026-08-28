@@ -244,10 +244,12 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   footnote: {
-    ...Typography.finePrint,
+    ...Typography.footnote,
     color: Colors.light.premiumTextTertiary,
     letterSpacing: 0,
     marginTop: Spacing.sm,
+    alignSelf: "center",
+    textAlign: "center",
   },
   terms: {
     ...Typography.finePrint,
