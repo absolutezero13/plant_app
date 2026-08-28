@@ -57,11 +57,13 @@ export function HomeHeader() {
           accessibilityLabel="Search for plants"
           autoCapitalize="none"
           autoCorrect={false}
-          clearButtonMode="while-editing"
+          cursorColor={Colors.light.primary}
           placeholder="Search for plants"
-          placeholderTextColor={Colors.light.textMuted}
+          placeholderTextColor={Colors.light.searchPlaceholder}
           returnKeyType="search"
+          selectionColor={Colors.light.primary}
           style={styles.searchInput}
+          underlineColorAndroid={Colors.light.backgroundTransparent}
         />
       </View>
     </View>
@@ -105,7 +107,6 @@ const styles = StyleSheet.create({
     gap: 12,
     marginTop: 14,
     paddingHorizontal: 16,
-    paddingVertical: 12,
     position: "relative",
     zIndex: 1,
     height: 44,
@@ -115,6 +116,7 @@ const styles = StyleSheet.create({
     color: Colors.light.text,
     fontFamily: Typography.heading.fontFamily,
     fontSize: 15.5,
+    height: "100%",
     letterSpacing: 0.07,
   },
 });
