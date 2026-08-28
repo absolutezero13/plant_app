@@ -1,5 +1,5 @@
-import type { ComponentType } from "react";
 import type { BottomTabBarProps } from "expo-router/tabs";
+import type { ComponentType } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import {
@@ -10,12 +10,7 @@ import {
   ScanTabIcon,
   type TabIconProps,
 } from "@/components/AppTabBar/icons";
-import {
-  Colors,
-  ControlSize,
-  Radius,
-  Typography,
-} from "@/constants/theme";
+import { Colors, ControlSize, Typography } from "@/constants/theme";
 
 type TabItem = {
   icon: ComponentType<TabIconProps>;
@@ -83,11 +78,13 @@ export default function AppTabBar({
         const isFocused = state.index === routeIndex;
         const Icon = item.icon;
 
-        if (item.raised) {
+        if ("raised" in item && item.raised) {
           return (
             <View key={item.name} style={styles.tabSlot}>
               <Pressable
-                accessibilityLabel={options.tabBarAccessibilityLabel ?? item.label}
+                accessibilityLabel={
+                  options.tabBarAccessibilityLabel ?? item.label
+                }
                 accessibilityRole="tab"
                 accessibilityState={{ selected: isFocused }}
                 onLongPress={() => handleLongPress(routeIndex)}
@@ -97,7 +94,7 @@ export default function AppTabBar({
               >
                 <Icon
                   color={Colors.light.onPrimary}
-                  size={ControlSize.tabBarIcon}
+                  size={ControlSize.tabBarRaisedButton}
                 />
               </Pressable>
             </View>
@@ -132,18 +129,14 @@ export default function AppTabBar({
 
 const styles = StyleSheet.create({
   tabBar: {
-    alignItems: "flex-start",
     backgroundColor: Colors.light.background,
-    borderTopColor: Colors.light.tabBarBorder,
-    borderTopWidth: StyleSheet.hairlineWidth,
     flexDirection: "row",
   },
   tabButton: {
     alignItems: "center",
     flex: 1,
-    gap: 2,
-    height: ControlSize.tabBarHeight,
-    justifyContent: "center",
+    gap: 4.87,
+    justifyContent: "flex-end",
   },
   label: {
     ...Typography.tabLabel,
@@ -152,17 +145,9 @@ const styles = StyleSheet.create({
   tabSlot: {
     alignItems: "center",
     flex: 1,
-    height: ControlSize.tabBarHeight,
+    justifyContent: "flex-end",
   },
   raisedButton: {
-    alignItems: "center",
-    backgroundColor: Colors.light.primary,
-    borderColor: Colors.light.tabBarRaisedBorder,
-    borderRadius: Radius.full,
-    borderWidth: 4,
-    height: ControlSize.tabBarRaisedButton,
-    justifyContent: "center",
-    marginTop: -22,
-    width: ControlSize.tabBarRaisedButton,
+    marginBottom: 9,
   },
 });
