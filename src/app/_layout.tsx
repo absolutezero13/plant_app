@@ -1,4 +1,4 @@
-import { store } from "@/store/store";
+import { hydrateStore, store, type RootState } from "@/store/store";
 import { Rubik_400Regular } from "@expo-google-fonts/rubik/400Regular";
 import { Rubik_500Medium } from "@expo-google-fonts/rubik/500Medium";
 import { Rubik_600SemiBold } from "@expo-google-fonts/rubik/600SemiBold";
@@ -8,12 +8,37 @@ import { useFonts } from "expo-font";
 import { DefaultTheme, ThemeProvider } from "expo-router/react-navigation";
 import { Stack } from "expo-router/stack";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import { Provider } from "react-redux";
+import { useEffect, useState } from "react";
+import { Provider, useSelector } from "react-redux";
 
 SplashScreen.preventAutoHideAsync();
 
+function RootNavigator() {
+  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+
+  return (
+    <ThemeProvider value={DefaultTheme}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Protected guard={!isLoggedIn}>
+          <Stack.Screen name="index" />
+          <Stack.Screen
+            name="onboarding"
+            options={{
+              fullScreenGestureEnabled: false,
+            }}
+          />
+        </Stack.Protected>
+        <Stack.Protected guard={isLoggedIn}>
+          <Stack.Screen name="(tabs)" />
+        </Stack.Protected>
+        <Stack.Screen name="paywall" />
+      </Stack>
+    </ThemeProvider>
+  );
+}
+
 export default function RootLayout() {
+  const [isUserStateReady, setIsUserStateReady] = useState(false);
   const [fontsLoaded, fontError] = useFonts({
     Rubik_400Regular,
     Rubik_500Medium,
@@ -23,30 +48,22 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (fontsLoaded || fontError) {
+    hydrateStore().finally(() => setIsUserStateReady(true));
+  }, []);
+
+  useEffect(() => {
+    if ((fontsLoaded || fontError) && isUserStateReady) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, fontError]);
+  }, [fontsLoaded, fontError, isUserStateReady]);
 
-  if (!fontsLoaded && !fontError) {
+  if ((!fontsLoaded && !fontError) || !isUserStateReady) {
     return null;
   }
 
   return (
     <Provider store={store}>
-      <ThemeProvider value={DefaultTheme}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen
-            name="onboarding"
-            options={{
-              fullScreenGestureEnabled: false,
-            }}
-          />
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="paywall" />
-        </Stack>
-      </ThemeProvider>
+      <RootNavigator />
     </Provider>
   );
 }

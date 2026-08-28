@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Pressable,
@@ -11,7 +11,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { AdaptiveGlassContainer } from "@/components/AdaptiveGlass";
 import { PrimaryButton } from "@/components/PrimaryButton";
@@ -24,8 +24,11 @@ import {
 } from "@/screens/PaywallScreen/assets";
 import { PremiumFeature } from "@/screens/PaywallScreen/components/PremiumFeature";
 import { SubscriptionPackage } from "@/screens/PaywallScreen/components/SubscriptionPackage";
-import type { AppDispatch } from "@/store/store";
-import { setSubscriberStatus } from "@/store/userSlice";
+import type { AppDispatch, RootState } from "@/store/store";
+import {
+  setLoggedInStatus,
+  setSubscriberStatus,
+} from "@/store/userSlice";
 
 const features = [
   {
@@ -51,8 +54,15 @@ type PaywallSource = "onboarding" | "tabs";
 export default function PaywallScreen() {
   const [selectedPackage, setSelectedPackage] = useState<PackageId>("annual");
   const dispatch = useDispatch<AppDispatch>();
+  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
   const { bottom, top } = useSafeAreaInsets();
   const { source } = useLocalSearchParams<{ source?: PaywallSource }>();
+
+  useEffect(() => {
+    if (source !== "tabs" && isLoggedIn) {
+      router.replace("/home");
+    }
+  }, [isLoggedIn, source]);
 
   const closePaywall = () => {
     if (source === "tabs") {
@@ -60,8 +70,7 @@ export default function PaywallScreen() {
       return;
     }
 
-    router.dismissAll();
-    router.replace("/home");
+    dispatch(setLoggedInStatus(true));
   };
 
   const purchaseSubscription = () => {

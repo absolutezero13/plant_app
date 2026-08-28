@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Colors, Radius, Spacing, Typography } from "@/constants/theme";
@@ -11,6 +18,21 @@ export default function ProfileScreen() {
   const isSubscriber = useSelector(
     (state: RootState) => state.user.isSubscriber,
   );
+
+  const confirmDataReset = () => {
+    Alert.alert(
+      "Reset data?",
+      "This will reset your login and subscription status.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Reset",
+          style: "destructive",
+          onPress: () => dispatch(resetUserState()),
+        },
+      ],
+    );
+  };
 
   return (
     <ScrollView
@@ -31,7 +53,7 @@ export default function ProfileScreen() {
 
         <Pressable
           accessibilityRole="button"
-          onPress={() => dispatch(resetUserState())}
+          onPress={confirmDataReset}
           style={styles.resetButton}
         >
           <Text style={styles.resetLabel}>Reset data</Text>
