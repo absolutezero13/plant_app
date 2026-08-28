@@ -1,19 +1,14 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  Alert,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Colors, Radius, Spacing, Typography } from "@/constants/theme";
 import type { AppDispatch, RootState } from "@/store/store";
 import { resetUserState } from "@/store/userSlice";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ProfileScreen() {
+  const { top } = useSafeAreaInsets();
   const dispatch = useDispatch<AppDispatch>();
   const isSubscriber = useSelector(
     (state: RootState) => state.user.isSubscriber,
@@ -35,11 +30,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.content}
-      contentInsetAdjustmentBehavior="automatic"
-      style={styles.screen}
-    >
+    <View style={[styles.screen, { paddingTop: top }]}>
       <StatusBar style="dark" />
       <Text accessibilityRole="header" style={styles.title}>
         Profile
@@ -59,7 +50,7 @@ export default function ProfileScreen() {
           <Text style={styles.resetLabel}>Reset data</Text>
         </Pressable>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -67,6 +58,7 @@ const styles = StyleSheet.create({
   screen: {
     backgroundColor: Colors.light.background,
     flex: 1,
+    paddingHorizontal: Spacing.lg,
   },
   content: {
     gap: Spacing.lg,
@@ -86,6 +78,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     gap: Spacing.sm,
     padding: Spacing.lg,
+    marginTop: Spacing.lg,
   },
   label: {
     ...Typography.bodySmall,
