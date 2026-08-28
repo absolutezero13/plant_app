@@ -12,12 +12,13 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    resetUserState: () => initialState,
     setSubscriberStatus: (state, action: PayloadAction<boolean>) => {
       state.isSubscriber = action.payload;
     },
   },
 });
 
-export const { setSubscriberStatus } = userSlice.actions;
+export const { resetUserState, setSubscriberStatus } = userSlice.actions;
 
 export default userSlice.reducer;

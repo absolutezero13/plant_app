@@ -2,7 +2,14 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -44,7 +51,12 @@ export default function PaywallScreen() {
 
   const purchaseSubscription = () => {
     dispatch(setSubscriberStatus(true));
-    goToHome();
+    Alert.alert(
+      "Purchase successful",
+      "You now have access to all premium features.",
+      [{ text: "Continue", onPress: goToHome }],
+      { cancelable: false },
+    );
   };
 
   return (
