@@ -60,10 +60,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: Spacing.lg,
   },
-  content: {
-    gap: Spacing.lg,
-    padding: Spacing.lg,
-  },
   title: {
     ...Typography.title,
     color: Colors.light.text,
