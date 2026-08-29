@@ -5,15 +5,16 @@ import {
   isLiquidGlassAvailable,
   type GlassContainerProps,
   type GlassViewProps,
-} from 'expo-glass-effect';
-import { View, type ColorValue, type ViewProps } from 'react-native';
+} from "expo-glass-effect";
+import { View, type ColorValue, type ViewProps } from "react-native";
 
-const canRenderLiquidGlass = isGlassEffectAPIAvailable() && isLiquidGlassAvailable();
+const canRenderLiquidGlass =
+  isGlassEffectAPIAvailable() && isLiquidGlassAvailable();
 
 type AdaptiveGlassProps = ViewProps & {
-  colorScheme?: GlassViewProps['colorScheme'];
+  colorScheme?: GlassViewProps["colorScheme"];
   fallbackColor: ColorValue;
-  glassEffectStyle?: GlassViewProps['glassEffectStyle'];
+  glassEffectStyle?: GlassViewProps["glassEffectStyle"];
   isInteractive?: boolean;
   tintColor?: string;
 };
@@ -21,7 +22,7 @@ type AdaptiveGlassProps = ViewProps & {
 export function AdaptiveGlass({
   colorScheme,
   fallbackColor,
-  glassEffectStyle = 'regular',
+  glassEffectStyle = "regular",
   isInteractive = false,
   style,
   tintColor,
@@ -40,10 +41,17 @@ export function AdaptiveGlass({
     );
   }
 
-  return <View style={[{ backgroundColor: fallbackColor }, style]} {...props} />;
+  return (
+    <View style={[{ backgroundColor: fallbackColor }, style]} {...props} />
+  );
 }
 
-export function AdaptiveGlassContainer({ children, spacing, style, ...props }: GlassContainerProps) {
+export function AdaptiveGlassContainer({
+  children,
+  spacing,
+  style,
+  ...props
+}: GlassContainerProps) {
   if (canRenderLiquidGlass) {
     return (
       <GlassContainer spacing={spacing} style={style} {...props}>

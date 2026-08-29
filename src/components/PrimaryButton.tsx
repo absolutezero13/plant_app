@@ -1,12 +1,6 @@
-import {
-  ActivityIndicator,
-  Pressable,
-  StyleSheet,
-  Text,
-} from "react-native";
-
 import { AdaptiveGlass } from "@/components/AdaptiveGlass";
 import { Colors, ControlSize, Radius, Typography } from "@/constants/theme";
+import { ActivityIndicator, Pressable, StyleSheet, Text } from "react-native";
 
 type PrimaryButtonProps = {
   title: string;

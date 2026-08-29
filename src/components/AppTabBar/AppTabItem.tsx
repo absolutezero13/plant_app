@@ -51,9 +51,7 @@ export function AppTabItem({
     );
   }
 
-  const color = isFocused
-    ? Colors.light.primary
-    : Colors.light.tabBarInactive;
+  const color = isFocused ? Colors.light.primary : Colors.light.tabBarInactive;
 
   return (
     <Pressable
