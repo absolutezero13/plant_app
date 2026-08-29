@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import StorageService from "@/services/StorageService";
+import StorageService, { StorageKeys } from "@/services/StorageService";
 
 describe("StorageService", () => {
   beforeEach(async () => {
@@ -10,10 +10,10 @@ describe("StorageService", () => {
   it("stores, reads, and removes typed user data", async () => {
     const user = { isLoggedIn: true, isSubscriber: false };
 
-    await StorageService.set("user", user);
-    await expect(StorageService.get("user")).resolves.toEqual(user);
+    await StorageService.set(StorageKeys.user, user);
+    await expect(StorageService.get(StorageKeys.user)).resolves.toEqual(user);
 
-    await StorageService.remove("user");
-    await expect(StorageService.get("user")).resolves.toBeNull();
+    await StorageService.remove(StorageKeys.user);
+    await expect(StorageService.get(StorageKeys.user)).resolves.toBeNull();
   });
 });

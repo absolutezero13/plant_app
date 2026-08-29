@@ -4,7 +4,7 @@ import {
   isAnyOf,
 } from "@reduxjs/toolkit";
 
-import StorageService from "@/services/StorageService";
+import StorageService, { StorageKeys } from "@/services/StorageService";
 import userReducer, {
   resetUserState,
   restoreUserState,
@@ -13,7 +13,6 @@ import userReducer, {
   type UserState,
 } from "@/store/userSlice";
 
-const USER_STORAGE_KEY = "user";
 type StoreState = { user: UserState };
 
 const userPersistenceListener = createListenerMiddleware<StoreState>();
@@ -27,7 +26,7 @@ userPersistenceListener.startListening({
   effect: async (_action, listenerApi) => {
     try {
       await StorageService.set(
-        USER_STORAGE_KEY,
+        StorageKeys.user,
         listenerApi.getState().user,
       );
     } catch (error) {
@@ -47,20 +46,14 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-let hydrationPromise: Promise<void> | null = null;
+export const hydrateStore = async (): Promise<void> => {
+  try {
+    const userState = await StorageService.get(StorageKeys.user);
 
-export const hydrateStore = (): Promise<void> => {
-  if (!hydrationPromise) {
-    hydrationPromise = StorageService.get(USER_STORAGE_KEY)
-      .then((userState) => {
-        if (userState) {
-          store.dispatch(restoreUserState(userState));
-        }
-      })
-      .catch((error) => {
-        console.warn("Unable to restore user state.", error);
-      });
+    if (userState) {
+      store.dispatch(restoreUserState(userState));
+    }
+  } catch (error) {
+    console.warn("Unable to restore user state.", error);
   }
-
-  return hydrationPromise;
 };

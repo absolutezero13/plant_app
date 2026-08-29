@@ -33,7 +33,6 @@ export function HomeHeader() {
   return (
     <View style={[styles.header, { paddingTop: top + 3, width }]}>
       <Image
-        contentFit="fill"
         source={homeHeaderBackground}
         style={[
           styles.background,

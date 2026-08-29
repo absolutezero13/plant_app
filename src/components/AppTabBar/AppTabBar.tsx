@@ -1,23 +1,18 @@
 import type { BottomTabBarProps } from "expo-router/tabs";
-import type { ComponentType } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
+import {
+  AppTabItem,
+  type AppTabItemConfig,
+} from "@/components/AppTabBar/AppTabItem";
 import {
   DiagnoseTabIcon,
   HomeTabIcon,
   MyGardenTabIcon,
   ProfileTabIcon,
   ScanTabIcon,
-  type TabIconProps,
 } from "@/components/AppTabBar/icons";
-import { Colors, ControlSize, Typography } from "@/constants/theme";
-
-type TabItem = {
-  icon: ComponentType<TabIconProps>;
-  label: string;
-  name: string;
-  raised?: boolean;
-};
+import { Colors, ControlSize } from "@/constants/theme";
 
 const tabItems = [
   { name: "home", label: "Home", icon: HomeTabIcon },
@@ -25,7 +20,7 @@ const tabItems = [
   { name: "scan", label: "Scan", icon: ScanTabIcon, raised: true },
   { name: "my-garden", label: "My Garden", icon: MyGardenTabIcon },
   { name: "profile", label: "Profile", icon: ProfileTabIcon },
-] as const satisfies ReadonlyArray<TabItem>;
+] as const satisfies ReadonlyArray<AppTabItemConfig>;
 
 export default function AppTabBar({
   descriptors,
@@ -75,52 +70,17 @@ export default function AppTabBar({
 
         const route = state.routes[routeIndex];
         const options = descriptors[route.key].options;
-        const isFocused = state.index === routeIndex;
-        const Icon = item.icon;
-
-        if ("raised" in item && item.raised) {
-          return (
-            <View key={item.name} style={styles.tabSlot}>
-              <Pressable
-                accessibilityLabel={
-                  options.tabBarAccessibilityLabel ?? item.label
-                }
-                accessibilityRole="tab"
-                accessibilityState={{ selected: isFocused }}
-                onLongPress={() => handleLongPress(routeIndex)}
-                onPress={() => openTab(routeIndex)}
-                style={styles.raisedButton}
-                testID={options.tabBarButtonTestID}
-              >
-                <Icon
-                  color={Colors.light.onPrimary}
-                  size={ControlSize.tabBarRaisedButton}
-                />
-              </Pressable>
-            </View>
-          );
-        }
-
-        const color = isFocused
-          ? Colors.light.primary
-          : Colors.light.tabBarInactive;
 
         return (
-          <Pressable
+          <AppTabItem
             accessibilityLabel={options.tabBarAccessibilityLabel ?? item.label}
-            accessibilityRole="tab"
-            accessibilityState={{ selected: isFocused }}
+            isFocused={state.index === routeIndex}
+            item={item}
             key={item.name}
             onLongPress={() => handleLongPress(routeIndex)}
             onPress={() => openTab(routeIndex)}
-            style={styles.tabButton}
             testID={options.tabBarButtonTestID}
-          >
-            <Icon color={color} size={ControlSize.tabBarIcon} />
-            <Text numberOfLines={1} style={[styles.label, { color }]}>
-              {item.label}
-            </Text>
-          </Pressable>
+          />
         );
       })}
     </View>
@@ -133,23 +93,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderTopColor: Colors.light.surfaceBorder,
     borderTopWidth: 0.5,
-  },
-  tabButton: {
-    alignItems: "center",
-    flex: 1,
-    gap: 4.87,
-    justifyContent: "flex-end",
-  },
-  label: {
-    ...Typography.tabLabel,
-    textAlign: "center",
-  },
-  tabSlot: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  raisedButton: {
-    marginBottom: 9,
   },
 });

@@ -2,8 +2,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import type { UserState } from "@/store/userSlice";
 
+export const StorageKeys = {
+  user: "user",
+} as const;
+
 export type StorageSchema = {
-  user: UserState;
+  [StorageKeys.user]: UserState;
 };
 
 export class StorageService {

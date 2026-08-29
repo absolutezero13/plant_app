@@ -4,6 +4,7 @@ import axios, {
   type AxiosRequestConfig,
 } from "axios";
 
+const BASE_URL = "https://dummy-api-jtg6bessta-ey.a.run.app";
 type ApiErrorResponse = {
   error?: string;
   message?: string;
@@ -36,7 +37,7 @@ export class ApiService {
 
   private constructor() {
     this.client = axios.create({
-      baseURL: "https://dummy-api-jtg6bessta-ey.a.run.app",
+      baseURL: BASE_URL,
       headers: {
         Accept: "application/json",
       },
